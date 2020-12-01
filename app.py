@@ -33,7 +33,7 @@ app.title='Fantasy'
 app.layout = html.Div(children=[
     html.H4(children='Scoreboard'),
     generate_table(df),
-    generate_table(df),
+    generate_table(df2),
     html.Div(["Input: ",
               dcc.Input(id='my-input', value='initial value', type='text')]),
     html.Br(),
