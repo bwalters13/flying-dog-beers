@@ -23,10 +23,11 @@ def generate_table(dataframe, max_rows=10):
     ])
 
 
+########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+server = app.server
+app.title='Fantasy'
 app.layout = html.Div(children=[
     html.H4(children='Scoreboard'),
     generate_table(df),
