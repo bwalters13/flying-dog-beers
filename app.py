@@ -23,10 +23,7 @@ def generate_table(dataframe, max_rows=10):
         ])
     ])
 
-@app.callback(
-    Output('table', 'data'),
-    [ Input('graph-update', 'n_intervals') ]
-)
+
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -35,11 +32,7 @@ app.title='Fantasy'
 app.layout = html.Div(children=[
     html.H4(children='Scoreboard'),
     generate_table(df),
-    dash_table.DataTable(
-          id = 'table',
-          data = df.to_dict('records'),
-          columns=[{"name": i, "id": i} for i in df.columns])]),
-
+    generate_table(df),
     html.Div(["Input: ",
               dcc.Input(id='my-input', value='initial value', type='text')]),
     html.Br(),
