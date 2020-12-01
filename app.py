@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Output, Input
 import pandas as pd
 
 df = pd.read_csv('https://raw.githubusercontent.com/bwalters13/flying-dog-beers/master/game1.csv')
@@ -31,7 +32,11 @@ app.title='Fantasy'
 app.layout = html.Div(children=[
     html.H4(children='Scoreboard'),
     generate_table(df),
-    generate_table(df2),
+    dash_table.DataTable(
+          id = 'table',
+          data = df.to_dict('records'),
+          columns=[{"name": i, "id": i} for i in df.columns])])
+
     html.Div(["Input: ",
               dcc.Input(id='my-input', value='initial value', type='text')]),
     html.Br(),
@@ -43,7 +48,10 @@ app.layout = html.Div(children=[
         )
 ])
 
-
+@app.callback(
+    Output('live-graph', 'figure'),
+    [ Input('graph-update', 'n_intervals') ]
+)
 
 
 
