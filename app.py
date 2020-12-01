@@ -22,8 +22,7 @@ def generate_table(dataframe, max_rows=10):
             ]) for i in range(min(len(dataframe), max_rows))
         ])
     ])
-@app.callback(Output('live-update-text', 'children'),
-              Input('interval-component', 'n_intervals'))
+
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
