@@ -3,11 +3,11 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 
-df = pd.read_csv('game1.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/bwalters13/flying-dog-beers/master/game1.csv')
 df = df.drop(columns={'Unnamed: 0'})
 df.columns = ['team','score']
 
-df2 = pd.read_csv('game2.csv')
+df2 = pd.read_csv('https://raw.githubusercontent.com/bwalters13/flying-dog-beers/master/game2.csv')
 df2 = df2.drop(columns={'Unnamed: 0'})
 df2.columns = ['team','score']
 def generate_table(dataframe, max_rows=10):
