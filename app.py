@@ -35,7 +35,7 @@ app.layout = html.Div(children=[
     dash_table.DataTable(
           id = 'table',
           data = df.to_dict('records'),
-          columns=[{"name": i, "id": i} for i in df.columns])])
+          columns=[{"name": i, "id": i} for i in df.columns])]),
 
     html.Div(["Input: ",
               dcc.Input(id='my-input', value='initial value', type='text')]),
@@ -49,11 +49,13 @@ app.layout = html.Div(children=[
 ])
 
 @app.callback(
-    Output('live-graph', 'figure'),
+    Output('table', 'data'),
     [ Input('graph-update', 'n_intervals') ]
 )
 
-
+def updateTable(n):
+    df = pd.read_csv('https://raw.githubusercontent.com/bwalters13/flying-dog-beers/master/game2.csv')
+    return df.to_dict('records')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
