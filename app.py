@@ -36,6 +36,11 @@ app.layout = html.Div(children=[
               dcc.Input(id='my-input', value='initial value', type='text')]),
     html.Br(),
     html.Div(id='my-output'),
+    dcc.Interval(
+            id='interval-component',
+            interval=1*1000, # in milliseconds
+            n_intervals=0
+        )
 ])
 
 
