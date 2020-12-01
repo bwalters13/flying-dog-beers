@@ -23,7 +23,10 @@ def generate_table(dataframe, max_rows=10):
         ])
     ])
 
-
+@app.callback(
+    Output('table', 'data'),
+    [ Input('graph-update', 'n_intervals') ]
+)
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -48,10 +51,7 @@ app.layout = html.Div(children=[
         )
 ])
 
-@app.callback(
-    Output('table', 'data'),
-    [ Input('graph-update', 'n_intervals') ]
-)
+
 
 def updateTable(n):
     df = pd.read_csv('https://raw.githubusercontent.com/bwalters13/flying-dog-beers/master/game2.csv')
