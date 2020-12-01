@@ -50,7 +50,7 @@ app.layout = html.Div(children=[
 
 @app.callback(
     Output('table','data'),
-    Input('graph-update', 'n_intervals')
+    Input('interval-component', 'n_intervals')
 )
 
 def updateTable(n):
