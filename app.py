@@ -86,7 +86,7 @@ def layout():
     generate_table(df),
     generate_table(df2),
     html.Br(),
-    html.Img(src=app.get_asset_url('https://i.ibb.co/dL2Rz9L/bracket.jpg'))
+    html.Img(src='https://i.ibb.co/0Y3DrYr/bracket.jpg'),
     html.Div(id='my-output'),
     dcc.Interval(
             id='interval-component',
