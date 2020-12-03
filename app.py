@@ -142,7 +142,7 @@ def layout():
     #df2 = df2.drop(columns={'Unnamed: 0'})
     df2.columns = ['team','score']
     matchups = [list(df.team.unique()),list(df2.team.unique())]
-    return html.Div(style={'backgroundColor'='#111111'},children=[
+    return html.Div(style={'backgroundColor':'#111111'},children=[
     html.H4(children='Scoreboard'),
     generate_table(df),
     generate_table(df2),
