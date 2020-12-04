@@ -148,7 +148,7 @@ def layout():
             14: 'Hursting My Thielens'}
     players = get_rosters()
     tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
-    scores = players[(players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual'].sum().to_frame().reset_index()
+    scores = players[(players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
     tm2_df = tm1_df.copy()
