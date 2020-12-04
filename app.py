@@ -163,7 +163,7 @@ def layout():
                         html.Div(
                         className='scoreboard',
                         children=[
-                            html.H4(children='Scoreboard',style={'color':'black','textDecoration':'underline'}),
+                            html.H4(children='Scoreboard *Jake is a Racist',style={'color':'black','textDecoration':'underline'}),
                             generate_table(df),
                             generate_table(df2),
                             dcc.Dropdown(
