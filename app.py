@@ -156,6 +156,7 @@ def layout():
     df2 = scores[(scores.Team == 4) | (scores.Team == 9)]
     df['Team'] = df['Team'].apply(lambda x: ids[x])
     df2['Team'] = df2['Team'].apply(lambda x: ids[x])
+    racists = pd.DataFrame(['Spencer','CJ','Jake'],columns=['Name'])
     #df2 = df2.drop(columns={'Unnamed: 0'})
     teams = list(df.Team.unique()) + list(df2.Team.unique())
     mas = df.append(df2)
@@ -166,6 +167,8 @@ def layout():
                             html.H4(children='Scoreboard *Jake is a Racist',style={'color':'black','textDecoration':'underline'}),
                             generate_table(df),
                             generate_table(df2),
+                            html.H4(children='List Of Racists'),
+                            generate_table(racists),
                             dcc.Dropdown(
                                 id='teams',
                                 options=[
