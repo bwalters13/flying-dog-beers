@@ -117,20 +117,20 @@ def get_rosters():
 def generate_table(dataframe, max_rows=10):
     return html.Table([
         html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
+            html.Tr([html.Th(col,style={'text-align':'center'}) for col in dataframe.columns])
         ),
         html.Tbody([
             html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                html.Td(dataframe.iloc[i][col],style={'text-align':'center'}) for col in dataframe.columns
             ]) for i in range(min(len(dataframe), max_rows))
         ])
-    ],style={'width':'50%','border':'1px solid black','backgroundColor':'#AFC7FF'}
+    ],style={'width':'50%','border':'2px solid black','backgroundColor':'#AFC7FF','text-align':'center','marginLeft':'auto','marginRight':'auto'}
         )
 
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{"name": "viewport", "content": "width=device-width"}])
 server = app.server
 app.title='Fantasy'
 def layout():
@@ -147,8 +147,11 @@ def layout():
             13: 'Team Jafarinia',
             14: 'Hursting My Thielens'}
     players = get_rosters()
-    tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
-    scores = players[(players.Pos != 'IR') & (players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
+    tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    scores = players[(players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
+    cols = ['Actual','Proj']
+    scores[cols] = scores[cols].apply(lambda x: round(x,2))
+    
     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
     tm2_df = tm1_df.copy()
@@ -160,15 +163,20 @@ def layout():
     #df2 = df2.drop(columns={'Unnamed: 0'})
     teams = list(df.Team.unique()) + list(df2.Team.unique())
     mas = df.append(df2)
-    return html.Div(style={'backgroundColor':'#6B97FC'},children=[
+    return html.Div(style={'backgroundColor':'#6B97FC','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
                         className='scoreboard',
                         children=[
-                            html.H4(children='Scoreboard',style={'color':'black','textDecoration':'underline'}),
-                            generate_table(df),
-                            generate_table(df2),
-                            html.H4(children='List Of Racists'),
-                            generate_table(racists),
+                            html.Div(
+                                [
+                                    html.H4(children='Scoreboard',style={'color':'black','textDecoration':'underline','text-align':'center'}),
+                                    generate_table(df),
+                                    generate_table(df2),
+                                    html.H4(children='List Of Racists'),
+                                    generate_table(racists),
+                                ],className='scores',
+                                style={'marginLeft':'auto','marginRight':'auto'}
+                            ),
                             dcc.Dropdown(
                                 id='teams',
                                 options=[
@@ -199,7 +207,12 @@ def layout():
                                     {'if':{'column_id':'Actual'},
                                      'width':'5%'},
                                     {'if':{'column_id':'Proj'},
-                                     'width':'5%'}]
+                                     'width':'5%'}],
+                                style_data_conditional=[
+                                    {
+                                        'if': {'row_index': 'odd'},
+                                        'backgroundColor': 'rgb(248, 248, 248)'
+                                    }]
                                 )]),
                         html.Div(style={'display':'inline-block'},
                                  children=[
@@ -212,7 +225,12 @@ def layout():
                                     {'if':{'column_id':'Actual'},
                                      'width':'5%'},
                                     {'if':{'column_id':'Proj'},
-                                     'width':'5%'}]
+                                     'width':'5%'}],
+                                style_data_conditional=[
+                                    {
+                                        'if': {'row_index': 'odd'},
+                                        'backgroundColor': 'rgb(248, 248, 248)'
+                                    }]
                                 )]),
                         html.Br()
                         
@@ -245,8 +263,8 @@ app.layout = layout
 def update_table(matchup,matchup2):
     li = get_rosters()
     print('hi')
-    tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench') & (li.Pos != 'IR')].sort_values('Slot')
-    tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench') & (li.Pos != 'IR')].sort_values('Slot')
+    tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
+    tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
     print(tm1_df.head())
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
     tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
@@ -270,4 +288,3 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
