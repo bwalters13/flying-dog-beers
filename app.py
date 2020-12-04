@@ -121,7 +121,7 @@ def generate_table(dataframe, max_rows=10):
         ),
         html.Tbody([
             html.Tr([
-                html.Td(dataframe.iloc[i][col],style={'text-align':'center'}) for col in dataframe.columns
+                html.Td(dataframe.iloc[i][col],style={'text-align':'center','border':'none','border-right':'2px solid black'}) for col in dataframe.columns
             ]) for i in range(min(len(dataframe), max_rows))
         ])
     ],style={'width':'50%','border':'2px solid black','backgroundColor':'#AFC7FF','text-align':'center','marginLeft':'auto','marginRight':'auto'}
