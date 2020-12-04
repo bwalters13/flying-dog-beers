@@ -163,7 +163,7 @@ def layout():
     #df2 = df2.drop(columns={'Unnamed: 0'})
     teams = list(df.Team.unique()) + list(df2.Team.unique())
     mas = df.append(df2)
-    return html.Div(style={'backgroundColor':'#6B97FC','marginLeft':'auto','marginRight':'auto'},children=[
+    return html.Div(style={'backgroundColor':'#DDE0E6','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
                         className='scoreboard',
                         children=[
