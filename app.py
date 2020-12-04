@@ -116,7 +116,7 @@ def get_rosters():
     
     return data
 
-def generate_table(dataframe, max_rows=10):
+def generate_table(dataframe,color ,max_rows=10):
     return html.Table([
         html.Thead(
             html.Tr([html.Th(col,style={'text-align':'center','border':'2px solid black'}) for col in dataframe.columns])
@@ -126,7 +126,7 @@ def generate_table(dataframe, max_rows=10):
                 html.Td(dataframe.iloc[i][col],style={'text-align':'center','border':'2px solid black','border-right':'2px solid black'}) for col in dataframe.columns
             ]) for i in range(min(len(dataframe), max_rows))
         ])
-    ],style={'width':'50%','border':'2px solid black','backgroundColor':'#AFC7FF','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+    ],style={'width':'50%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto'}
         )
 
 
@@ -186,23 +186,23 @@ def layout():
                             html.Div(
                                 [
                                     html.H4(children='Scoreboard',style={'color':'black','textDecoration':'underline','text-align':'center'}),
-                                    generate_table(df),
-                                    generate_table(df2),
+                                    generate_table(df,'#FDC1FB'),
+                                    generate_table(df2,'#90FFE1'),
                                     html.H4(children='List Of Racists'),
-                                    generate_table(racists),
+                                    generate_table(racists,'#FCA3F9'),
                                 ],className='scores',
                                 style={'marginLeft':'auto','marginRight':'auto'}
                             ),
                             dcc.Tabs(
-                                style={'width':'45%','marginLeft':'auto','marginRight':'auto'},
+                                style={'width':'45%','marginLeft':'auto','marginRight':'auto','padding':'15px'},
                                 id='matchup',
                                 value='tab-1',
                                 children=[
                                     dcc.Tab(label='Ben vs. Jake',children=[
-                                            generate_table(matchup1)
+                                            generate_table(matchup1,'#BAF7FF')
                                         ]),
                                     dcc.Tab(label='Spencer vs. CJ',children=[
-                                            generate_table(matchup2)
+                                            generate_table(matchup2,'#BAF7FF')
                                         ])
                                     ])]),
                             # dcc.Dropdown(
