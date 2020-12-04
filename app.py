@@ -147,7 +147,7 @@ def layout():
             13: 'Team Jafarinia',
             14: 'Hursting My Thielens'}
     players = get_rosters()
-    tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
     scores = players[(players.Pos != 'IR') & (players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
@@ -242,8 +242,8 @@ app.layout = layout
 def update_table(matchup,matchup2):
     li = get_rosters()
     print('hi')
-    tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
-    tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
+    tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench') & (li.Pos != 'IR')].sort_values('Slot')
+    tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench') & (li.Pos != 'IR')].sort_values('Slot')
     print(tm1_df.head())
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
     tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
