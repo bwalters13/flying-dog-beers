@@ -113,6 +113,7 @@ def get_rosters():
     }
     cols = ['Proj','Actual']
     data[cols] = data[cols].apply(lambda x: round(x,2))
+    
     return data
 
 def generate_table(dataframe, max_rows=10):
@@ -148,14 +149,28 @@ def layout():
             13: 'Team Jafarinia',
             14: 'Hursting My Thielens'}
     players = get_rosters()
-    tm1_df = players[(players.Team == 2) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm1_df = players[(players.Team == 4) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm2_df = players[(players.Team == 9) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm3_df = players[(players.Team == 7) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm4_df = players[(players.Team == 10) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
     scores = players[(players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
     cols = ['Actual','Proj']
     scores[cols] = scores[cols].apply(lambda x: round(x,2))
-    
     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
+    tm2_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
+    tm3_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
+    tm4_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
-    tm2_df = tm1_df.copy()
+    tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
+    tm3_df.loc['Total',['Proj','Actual']] = tm3_df.sum(axis=0)
+    tm4_df.loc['Total',['Proj','Actual']] = tm4_df.sum(axis=0)
+    tm2_df.index = tm1_df.index
+    tm4_df.index = tm3_df.index
+    matchup1 = pd.concat([tm1_df,tm2_df],axis=1)
+    matchup1.columns = ['Player ','Pos ','Proj ','Actual ','Player','Pos','Proj','Actual']
+    matchup1 = matchup1.reset_index(drop=True).fillna('')
+    matchup2 = pd.concat([tm3_df,tm4_df],axis=1)
+    matchup2.columns = ['Player ','Pos ','Proj ','Actual ','Player','Pos','Proj','Actual']
     df = scores[(scores.Team == 7) | (scores.Team == 10)]
     df2 = scores[(scores.Team == 4) | (scores.Team == 9)]
     df['Team'] = df['Team'].apply(lambda x: ids[x])
@@ -178,61 +193,64 @@ def layout():
                                 ],className='scores',
                                 style={'marginLeft':'auto','marginRight':'auto'}
                             ),
-                            dcc.Dropdown(
-                                id='teams',
-                                options=[
-                                    {'label': ids[num], 'value': num}
-                                    for num in ids
-                                    ],
-                                value=7,
-                                style={'width':'45%'}
-                                )]),
-                            dcc.Dropdown(
-                                id='teams2',
-                                options=[
-                                    {'label': ids[num], 'value': num}
-                                    for num in ids
-                                    ],
-                                value=10,
-                                style={'width':'45%'}
-                                ),
-                        html.Div(className='rosters',
-                                 style={'display':'inline-block','padding':'15px'},
-                                 children=[
-                            dash_table.DataTable(
-                                id='team-table',
-                                columns=[{"name":i,"id":i} for i in tm1_df.columns],
-                                data=tm1_df.to_dict('records'),
-                                style_table={'width':'50%'},
-                                style_cell_conditional=[
-                                    {'if':{'column_id':'Actual'},
-                                     'width':'5%'},
-                                    {'if':{'column_id':'Proj'},
-                                     'width':'5%'}],
-                                style_data_conditional=[
-                                    {
-                                        'if': {'row_index': 'odd'},
-                                        'backgroundColor': 'rgb(248, 248, 248)'
-                                    }]
-                                )]),
-                        html.Div(style={'display':'inline-block'},
-                                 children=[
-                            dash_table.DataTable(
-                                id='team-table2',
-                                columns=[{"name":i,"id":i} for i in tm1_df.columns],
-                                data=tm2_df.to_dict('records'),
-                                style_table={'width':'50%'},
-                                style_cell_conditional=[
-                                    {'if':{'column_id':'Actual'},
-                                     'width':'5%'},
-                                    {'if':{'column_id':'Proj'},
-                                     'width':'5%'}],
-                                style_data_conditional=[
-                                    {
-                                        'if': {'row_index': 'odd'},
-                                        'backgroundColor': 'rgb(248, 248, 248)'
-                                    }]
-                                )]),
+                            dcc.Tabs(
+                                style={'width':'45%','marginLeft':'auto','marginRight':'auto'},
+                                id='matchup',
+                                value='tab-1',
+                                children=[
+                                    dcc.Tab(label='Ben vs. Jake',children=[
+                                            generate_table(matchup1)
+                                        ]),
+                                    dcc.Tab(label='Spencer vs. CJ',children=[
+                                            generate_table(matchup2)
+                                        ])
+                                    ])]),
+                            # dcc.Dropdown(
+                            #     id='teams2',
+                            #     options=[
+                            #         {'label': ids[num], 'value': num}
+                            #         for num in ids
+                            #         ],
+                            #     value=10,
+                            #     style={'width':'45%'}
+                            #     ),
+                        # html.Div(className='rosters',
+                        #          style={'display':'inline-block','padding':'15px'},
+                        #          children=[
+                        #     dash_table.DataTable(
+                        #         id='team-table',
+                        #         columns=[{"name":i,"id":i} for i in tm1_df.columns],
+                        #         data=tm1_df.to_dict('records'),
+                        #         style_table={'width':'50%'},
+                        #         style_cell_conditional=[
+                        #             {'if':{'column_id':'Actual'},
+                        #              'width':'5%'},
+                        #             {'if':{'column_id':'Proj'},
+                        #              'width':'5%'}],
+                        #         style_data_conditional=[
+                        #             {
+                        #                 'if': {'row_index': 'odd'},
+                        #                 'backgroundColor': 'rgb(248, 248, 248)'
+                        #             }]
+                        #         )]),
+                        # html.Div(style={'display':'inline-block'},
+                        #          children=[
+                        #     dash_table.DataTable(
+                        #         id='team-table2',
+                        #         columns=[{"name":i,"id":i} for i in tm1_df.columns],
+                        #         data=tm2_df.to_dict('records'),
+                        #         style_table={'width':'50%'},
+                        #         style_cell_conditional=[
+                        #             {'if':{'column_id':'Actual'},
+                        #              'width':'5%'},
+                        #             {'if':{'column_id':'Proj'},
+                        #              'width':'5%'}],
+                        #         style_data_conditional=[
+                        #             {
+                        #                 'if': {'row_index': 'odd'},
+                        #                 'backgroundColor': 'rgb(248, 248, 248)'
+                        #             }]
+                        #         )]),
                         html.Br()
                         
                         
@@ -251,27 +269,21 @@ def layout():
     ])
 app.layout = layout
 
-@app.callback(
-     [Output(component_id='team-table',component_property='data'),
-      Output(component_id='team-table2',component_property='data')],
-    [Input(component_id='teams',component_property='value'),
-     Input(component_id='teams2',component_property='value')]
-    
-)
 
 
 
-def update_table(matchup,matchup2):
-    li = get_rosters()
-    print('hi')
-    tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
-    tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
-    print(tm1_df.head())
-    tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
-    tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
-    tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
-    tm2_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
-    return [tm1_df.to_dict('records'), tm2_df.to_dict('records')]
+
+# def update_table(matchup):
+#     li = get_rosters()
+#     print('hi')
+#     tm1_df = li[(li.Team == matchup) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
+#     tm2_df = li[(li.Team == matchup2) & (li.Week == 13) & (li.Pos != 'Bench')].sort_values('Slot')
+#     print(tm1_df.head())
+#     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
+#     tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
+#     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
+#     tm2_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
+#     return [tm1_df.to_dict('records'), tm2_df.to_dict('records')]
 
 
 
@@ -289,3 +301,7 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+
+
