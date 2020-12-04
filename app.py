@@ -117,7 +117,7 @@ def get_rosters():
 def generate_table(dataframe, max_rows=10):
     return html.Table([
         html.Thead(
-            html.Tr([html.Th(col,style={'text-align':'center'}) for col in dataframe.columns])
+            html.Tr([html.Th(col,style={'text-align':'center','border':'2px solid black'}) for col in dataframe.columns])
         ),
         html.Tbody([
             html.Tr([
