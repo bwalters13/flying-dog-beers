@@ -238,9 +238,9 @@ def layout():
                                                 html.Td(html.Img(src='https://prowrestlingnewshub.com/wp-content/uploads/2019/07/Booker-T.jpg',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
                                                 html.Td('Can you DIGGS it? Sucka'),
-                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
+                                                html.Td(round(tm2_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                html.Td(round(tm2_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'})
                                                 ])
                                             ])
