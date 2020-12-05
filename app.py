@@ -125,6 +125,7 @@ def generate_table(dataframe,color ,max_rows=10):
             html.Tr([
                 html.Td(dataframe.iloc[i][col],style={'text-align':'center','border':'2px solid black','border-right':'2px solid black'}) for col in dataframe.columns
             ]) for i in range(min(len(dataframe), max_rows))
+            
         ])
     ],style={'width':'50%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto'}
         )
@@ -149,11 +150,13 @@ def layout():
             13: 'Team Jafarinia',
             14: 'Hursting My Thielens'}
     players = get_rosters()
-    tm1_df = players[(players.Team == 4) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
-    tm2_df = players[(players.Team == 9) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
-    tm3_df = players[(players.Team == 7) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
-    tm4_df = players[(players.Team == 10) & (players.Week == 13) & (players.Pos != 'Bench')].sort_values(by='Slot')
+    tm1_df = players[(players.Team == 4) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm2_df = players[(players.Team == 9) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm3_df = players[(players.Team == 7) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm4_df = players[(players.Team == 10) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    
     scores = players[(players.Pos != 'Bench') & (players.Week == 13)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
+    
     cols = ['Actual','Proj']
     scores[cols] = scores[cols].apply(lambda x: round(x,2))
     tm1_df.drop(columns={'Week','Slot','Team','Status'},inplace=True)
@@ -177,8 +180,7 @@ def layout():
     df2['Team'] = df2['Team'].apply(lambda x: ids[x])
     racists = pd.DataFrame(['Spencer','CJ','Jake'],columns=['Name'])
     #df2 = df2.drop(columns={'Unnamed: 0'})
-    teams = list(df.Team.unique()) + list(df2.Team.unique())
-    mas = df.append(df2)
+    
     return html.Div(style={'backgroundColor':'#DDE0E6','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
                         className='scoreboard',
@@ -186,12 +188,71 @@ def layout():
                             html.Div(
                                 [
                                     html.H4(children='Scoreboard',style={'color':'black','textDecoration':'underline','text-align':'center'}),
-                                    generate_table(df,'#FDC1FB'),
-                                    generate_table(df2,'#90FFE1'),
-                                    html.H4(children='List Of Racists'),
-                                    generate_table(racists,'#FCA3F9'),
+                                    html.Table([
+                                        html.Thead(
+                                            html.Tr([html.Th('',style={'text-align':'center','borderRight':'none'}), 
+                                                     html.Th('Team',style={'text-align':'left','border':'2px solid black'}),
+                                                     html.Th('Actual',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'})])
+                                            ),
+                                        html.Tbody([
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://media4.giphy.com/media/xT9Igt1SacnVe3BkQg/giphy-downsized.gif',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td('Hasta Laviska, Baby'),
+                                                html.Td(round(tm3_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm3_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'})
+                                                ]),
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td('And That is Dallas'),
+                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'})
+                                                ])
+                                            ])
+    ],style={'width':'50%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+        ),
+                                    html.Table([
+                                        html.Thead(
+                                            html.Tr([html.Th('',style={'text-align':'center','borderRight':'none'}), 
+                                                     html.Th('Team',style={'text-align':'left','border':'2px solid black'}),
+                                                     html.Th('Actual',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'})])
+                                            ),
+                                        html.Tbody([
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://www.holbrooktravel.com/sites/default/files/THUMB-whale-shark-stock_0.jpg',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td('Whale Sharks'),
+                                                html.Td(round(tm1_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm1_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'})
+                                                ]),
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://prowrestlingnewshub.com/wp-content/uploads/2019/07/Booker-T.jpg',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td('Can you DIGGS it? Sucka'),
+                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'})
+                                                ])
+                                            ])
+    ],style={'width':'50%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+        ),
+                                    
+                                    
+                                    # generate_table(df,'#FDC1FB'),
+                                    # generate_table(df2,'#90FFE1'),
+                                    
                                 ],className='scores',
-                                style={'marginLeft':'auto','marginRight':'auto'}
+                                style={'marginLeft':'auto','marginRight':'auto','position':'relative'}
                             ),
                             dcc.Tabs(
                                 style={'width':'45%','marginLeft':'auto','marginRight':'auto','padding':'15px'},
@@ -204,7 +265,7 @@ def layout():
                                     dcc.Tab(label='Spencer vs. CJ',children=[
                                             generate_table(matchup2,'#BAF7FF')
                                         ])
-                                    ])]),
+                                    ]),
                             # dcc.Dropdown(
                             #     id='teams2',
                             #     options=[
@@ -265,6 +326,7 @@ def layout():
                                 "margin-right": "auto",
                                 })
                                 ])
+                        ])
                               
     ])
 app.layout = layout
@@ -301,7 +363,3 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-
