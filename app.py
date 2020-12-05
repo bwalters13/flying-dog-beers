@@ -260,7 +260,7 @@ def layout():
                                 value='tab-1',
                                 children=[
                                     dcc.Tab(label='Ben vs. Jake',children=[
-                                            generate_table(matchup1,'#BAF7FF')
+                                            generate_table(matchup1,'#ABFFE4')
                                         ]),
                                     dcc.Tab(label='Spencer vs. CJ',children=[
                                             generate_table(matchup2,'#BAF7FF')
