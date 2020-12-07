@@ -133,7 +133,7 @@ def generate_table(dataframe,color ,max_rows=10):
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{"name": "viewport", "content": "width=device-width"}])
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{"name": "viewport", "content": "width=device-width,initial-scale=1, minimum-scale=1"}])
 server = app.server
 app.title='Fantasy'
 def layout():
