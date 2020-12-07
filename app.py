@@ -207,7 +207,9 @@ def layout():
                                                 html.Td(left_to_play.loc[ids[7],'Week'],
                                                         style={'text-align':'center'})
                                                 
-                                                ]),
+                                                ],
+                                                ],
+                                            style={'margin':0,'padding':0},
                                             html.Tr([
                                                 html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
@@ -220,7 +222,7 @@ def layout():
                                                         style={'text-align':'center'})
                                                 ])
                                             ])
-    ],style={'border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+    ],style={'width':'100%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
         ),
                                     html.Table([
                                         html.Thead(
