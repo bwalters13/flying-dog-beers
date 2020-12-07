@@ -239,7 +239,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc['Whale Sharks','Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
