@@ -127,7 +127,7 @@ def generate_table(dataframe,color ,max_rows=10):
             ]) for i in range(min(len(dataframe), max_rows))
             
         ])
-    ],style={'width':'50%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto'}
+    ],style={'width':'50%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto','padding':'15px'}
         )
 
 
