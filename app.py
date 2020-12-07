@@ -178,9 +178,8 @@ def layout():
     df2 = scores[(scores.Team == 4) | (scores.Team == 9)]
     df['Team'] = df['Team'].apply(lambda x: ids[x])
     df2['Team'] = df2['Team'].apply(lambda x: ids[x])
-    racists = pd.DataFrame(['Spencer','CJ','Jake'],columns=['Name'])
-    #df2 = df2.drop(columns={'Unnamed: 0'})
-    
+    left_to_play = players[(players.Actual.isna()) & (players.Week == 13) & (players.Pos != 'Bench') & (players.Pos != 'IR')].groupby(['Team']).count()
+    left_to_play.index = [ids[x] for x in left_to_play.index]
     return html.Div(style={'backgroundColor':'#DDE0E6','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
                         className='scoreboard',
@@ -193,7 +192,8 @@ def layout():
                                             html.Tr([html.Th('',style={'text-align':'center','borderRight':'none'}), 
                                                      html.Th('Team',style={'text-align':'left','border':'2px solid black'}),
                                                      html.Th('Actual',style={'text-align':'center','border':'2px solid black'}),
-                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'})])
+                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Left To Play',style={'text-align':'center','border':'2px solid black'})])
                                             ),
                                         html.Tbody([
                                             html.Tr([
@@ -203,7 +203,10 @@ def layout():
                                                 html.Td(round(tm3_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm3_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc[ids[7],'Week'],
                                                         style={'text-align':'center'})
+                                                
                                                 ]),
                                             html.Tr([
                                                 html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
@@ -212,6 +215,8 @@ def layout():
                                                 html.Td(round(tm4_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc[ids[10],'Week'],
                                                         style={'text-align':'center'})
                                                 ])
                                             ])
@@ -222,7 +227,8 @@ def layout():
                                             html.Tr([html.Th('',style={'text-align':'center','borderRight':'none'}), 
                                                      html.Th('Team',style={'text-align':'left','border':'2px solid black'}),
                                                      html.Th('Actual',style={'text-align':'center','border':'2px solid black'}),
-                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'})])
+                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Left To Play',style={'text-align':'center','border':'2px solid black'})])
                                             ),
                                         html.Tbody([
                                             html.Tr([
@@ -232,15 +238,19 @@ def layout():
                                                 html.Td(round(tm1_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc['Whale Sharks','Week'],
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
                                                 html.Td(html.Img(src='https://prowrestlingnewshub.com/wp-content/uploads/2019/07/Booker-T.jpg',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
                                                 html.Td('Can you DIGGS it? Sucka'),
-                                                html.Td(round(tm2_df.loc['Total','Actual'],2),
+                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(round(tm2_df.loc['Total','Proj'],2),
+                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc['Can you  DIGGS it? Sucka','Week'],
                                                         style={'text-align':'center'})
                                                 ])
                                             ])
@@ -260,7 +270,7 @@ def layout():
                                 value='tab-1',
                                 children=[
                                     dcc.Tab(label='Ben vs. Jake',children=[
-                                            generate_table(matchup1,'#ABFFE4')
+                                            generate_table(matchup1,'#BAF7FF')
                                         ]),
                                     dcc.Tab(label='Spencer vs. CJ',children=[
                                             generate_table(matchup2,'#BAF7FF')
