@@ -209,7 +209,7 @@ def layout():
                                                 
                                                 ],
                                                 ],
-                                            style={'margin':0,'padding':0},
+                                            style={'margin':0,'padding':0}),
                                             html.Tr([
                                                 html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
