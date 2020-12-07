@@ -127,13 +127,13 @@ def generate_table(dataframe,color ,max_rows=10):
             ]) for i in range(min(len(dataframe), max_rows))
             
         ])
-    ],style={'width':'50%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto','padding':'15px'}
+    ],style={'width':'25%','border':'2px solid black','backgroundColor': color,'text-align':'center','marginLeft':'auto','marginRight':'auto'}
         )
 
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{"name": "viewport", "content": "width=device-width,initial-scale=1, minimum-scale=1"}])
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{"name": "viewport", "content": "width=device-width"}])
 server = app.server
 app.title='Fantasy'
 def layout():
@@ -199,7 +199,7 @@ def layout():
                                             html.Tr([
                                                 html.Td(html.Img(src='https://media4.giphy.com/media/xT9Igt1SacnVe3BkQg/giphy-downsized.gif',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
-                                                html.Td('Hasta Laviska, Baby'),
+                                                html.Td(html.A('Hasta Laviska, Baby',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=7')),
                                                 html.Td(round(tm3_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm3_df.loc['Total','Proj'],2),
@@ -211,7 +211,7 @@ def layout():
                                             html.Tr([
                                                 html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
-                                                html.Td('And That is Dallas'),
+                                                html.Td(html.A('And That is Dallas',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=10')),
                                                 html.Td(round(tm4_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm4_df.loc['Total','Proj'],2),
@@ -234,7 +234,7 @@ def layout():
                                             html.Tr([
                                                 html.Td(html.Img(src='https://www.holbrooktravel.com/sites/default/files/THUMB-whale-shark-stock_0.jpg',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
-                                                html.Td('Whale Sharks'),
+                                                html.Td(html.A('Whale Sharks',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=4')),
                                                 html.Td(round(tm1_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
@@ -245,10 +245,10 @@ def layout():
                                             html.Tr([
                                                 html.Td(html.Img(src='https://prowrestlingnewshub.com/wp-content/uploads/2019/07/Booker-T.jpg',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
-                                                html.Td('Can you DIGGS it? Sucka'),
-                                                html.Td(round(tm2_df.loc['Total','Actual'],2),
+                                                html.Td(html.A('Can you DIGGS it? Sucka',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=9')),
+                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(round(tm2_df.loc['Total','Proj'],2),
+                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(left_to_play.loc['Can you  DIGGS it? Sucka','Week'],
                                                         style={'text-align':'center'})
@@ -272,7 +272,7 @@ def layout():
                                     dcc.Tab(label='Ben vs. Jake',children=[
                                             generate_table(matchup1,'#BAF7FF')
                                         ],
-                                        ),
+                                        style={'width':'50%'}),
                                     dcc.Tab(label='Spencer vs. CJ',children=[
                                             generate_table(matchup2,'#BAF7FF')
                                         ])
@@ -374,6 +374,10 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+
+
 
 
 
