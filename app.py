@@ -220,7 +220,7 @@ def layout():
                                                         style={'text-align':'center'})
                                                 ])
                                             ])
-    ],style={'width':'50%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+    ],style={'border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
         ),
                                     html.Table([
                                         html.Thead(
