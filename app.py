@@ -277,13 +277,13 @@ def layout():
                                 value='tab-1',
                                 children=[
                                     dcc.Tab(label='Ben vs. Jake',children=[
-                                            generate_table(tm1_df[tm1_df.Week == 14].drop(columns={'Week'}),'#BAF7FF'),
-                                            generate_table(tm2_df[tm2_df.Week == 14].drop(columns={'Week'}),'#BAF7FF')
+                                            generate_table(tm1_df[tm1_df.Week == 14].drop(columns={'Week'}),'#C7FFEF'),
+                                            generate_table(tm2_df[tm2_df.Week == 14].drop(columns={'Week'}),'#F3D0FF')
                                         ],
                                         style={'width':'50%'}),
                                     dcc.Tab(label='Spencer vs. CJ',children=[
-                                            generate_table(tm3_df[tm3_df.Week == 14].drop(columns={'Week'}),'#BAF7FF'),
-                                            generate_table(tm4_df[tm4_df.Week == 14].drop(columns={'Week'}),'#BAF7FF')
+                                            generate_table(tm3_df[tm3_df.Week == 14].drop(columns={'Week'}),'#C7FFEF'),
+                                            generate_table(tm4_df[tm4_df.Week == 14].drop(columns={'Week'}),'#F3D0FF')
                                         ])
                                     ]),
                             # dcc.Dropdown(
