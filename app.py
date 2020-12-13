@@ -211,7 +211,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm3_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc[ids[7],'Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 
                                                 ]),
