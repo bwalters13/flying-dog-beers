@@ -156,6 +156,8 @@ def layout():
     players = get_rosters()
     tm1_df = players[(players.Team == 10) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
     tm2_df = players[(players.Team == 9) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm3_df = players[(players.Team == 4) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm4_df = players[(players.Team == 7) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
     
     
     scores = players[(players.Pos != 'Bench') & (players.Week == 15)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
@@ -166,9 +168,13 @@ def layout():
     
     tm1_df.drop(columns={'Slot','Team','Status'},inplace=True)
     tm2_df.drop(columns={'Slot','Team','Status'},inplace=True)
+    tm3_df.drop(columns={'Slot','Team','Status'},inplace=True)
+    tm4_df.drop(columns={'Slot','Team','Status'},inplace=True)
     
     tm1_df.loc['Total',['Proj','Actual']] = tm1_df.sum(axis=0)
     tm2_df.loc['Total',['Proj','Actual']] = tm2_df.sum(axis=0)
+    tm3_df.loc['Total',['Proj','Actual']] = tm3_df.sum(axis=0)
+    tm4_df.loc['Total',['Proj','Actual']] = tm4_df.sum(axis=0)
     
     tm2_df.index = tm1_df.index
     
@@ -211,7 +217,7 @@ def layout():
                                             html.Tr([
                                                 html.Td(html.Img(src='https://img.buzzfeed.com/buzzfeed-static/static/2019-12/27/3/enhanced/3a6729677dba/enhanced-7541-1577416148-8.jpg?downsize=900:*&output-format=auto&output-quality=auto',
                                              style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
-                                                html.Td(html.A('And That is Dallas',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=10')),
+                                                html.Td(html.A('And That is Dallas',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=10',target='_blank')),
                                                 html.Td(round(tm1_df.loc['Total','Actual'],2),
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
@@ -222,6 +228,41 @@ def layout():
                                             ],style={'margin':0, 'padding':0})
     ],style={'width':'100%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
         ),
+                                    
+                                    html.Table([
+                                        html.Thead(
+                                            html.Tr([html.Th('',style={'text-align':'center','borderRight':'none'}), 
+                                                     html.Th('Team',style={'text-align':'left','border':'2px solid black'}),
+                                                     html.Th('Actual',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Proj',style={'text-align':'center','border':'2px solid black'}),
+                                                     html.Th('Left To Play',style={'text-align':'center','border':'2px solid black'})])
+                                            ),
+                                        html.Tbody([
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://cdn.vox-cdn.com/uploads/chorus_asset/file/9499413/callme.0.gif',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td(html.A('Hasta Laviska, Baby',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=7',target='_blank')),
+                                                html.Td(round(tm4_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm4_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc[ids[7],'Week'],
+                                                        style={'text-align':'center'})
+                                                ]),
+                                            html.Tr([
+                                                html.Td(html.Img(src='https://www.holbrooktravel.com/sites/default/files/THUMB-whale-shark-stock_0.jpg',
+                                             style={'float':'right','width':'80px','height':'80px','display':'inline','borderRadius':'50%'})),
+                                                html.Td(html.A('Whale Sharks',href='https://fantasy.espn.com/football/team?leagueId=1194235&teamId=4',target='_blank')),
+                                                html.Td(round(tm3_df.loc['Total','Actual'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(round(tm3_df.loc['Total','Proj'],2),
+                                                        style={'text-align':'center'}),
+                                                html.Td(left_to_play.loc['Whale Sharks','Week'],
+                                                        style={'text-align':'center'})
+                                                ])
+                                            ],style={'margin':0, 'padding':0})
+    ],style={'width':'100%','border':'2px solid black','backgroundColor': 'white','text-align':'center','marginLeft':'auto','marginRight':'auto'}
+        )
                                     
                                     
                                     
@@ -239,6 +280,14 @@ def layout():
                                     dcc.Tab(label='CJ vs. Jake',children=[
                                             generate_table(tm1_df[tm1_df.Week == 15].drop(columns={'Week'}),'#BAF7FF'),
                                             generate_table(tm2_df[tm2_df.Week == 15].drop(columns={'Week'}),'#BAF7FF')
+                                        ],
+                                        style={'width':'50%'}),
+            
+                                    
+                                
+                                    dcc.Tab(label='Spencer vs. Ben',children=[
+                                            generate_table(tm4_df[tm4_df.Week == 15].drop(columns={'Week'}),'#BAF7FF'),
+                                            generate_table(tm3_df[tm3_df.Week == 15].drop(columns={'Week'}),'#BAF7FF')
                                         ],
                                         style={'width':'50%'}),
             
@@ -294,7 +343,7 @@ def layout():
                         
                     ,
                         html.Div(children=[            
-                            html.Img(src='https://i.ibb.co/RS4T00Q/bracket.jpg',
+                            html.Img(src='https://i.ibb.co/0Y3DrYr/bracket.jpg',
                                  style={
                                 'height': 500,
                                 'width': 500,
@@ -340,7 +389,3 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
-
