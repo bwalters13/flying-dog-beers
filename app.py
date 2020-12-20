@@ -211,7 +211,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm2_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc['Can you  DIGGS it? Sucka','Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
@@ -222,7 +222,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc['And That Is Dallas','Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 ])
                                             ],style={'margin':0, 'padding':0})
@@ -246,7 +246,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm4_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc[ids[7],'Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
@@ -257,7 +257,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm3_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(left_to_play.loc['Whale Sharks','Week'],
+                                                html.Td(0,
                                                         style={'text-align':'center'})
                                                 ])
                                             ],style={'margin':0, 'padding':0})
