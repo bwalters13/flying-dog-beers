@@ -65,7 +65,7 @@ def get_rosters():
 
     data = []
     print('Week ', end='')
-    for week in range(15,16):
+    for week in range(15,17):
         print(week, end=' ')
 
         r = requests.get(url,
@@ -154,15 +154,17 @@ def layout():
             13: 'Team Jafarinia',
             14: 'Hursting My Thielens'}
     players = get_rosters()
-    tm1_df = players[(players.Team == 10) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
-    tm2_df = players[(players.Team == 9) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
-    tm3_df = players[(players.Team == 4) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
-    tm4_df = players[(players.Team == 7) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm1_df = players[(players.Team == 10) & (players.Week.isin([15,16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm2_df = players[(players.Team == 9) & (players.Week.isin([15,16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm3_df = players[(players.Team == 4) & (players.Week.isin([15,16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
+    tm4_df = players[(players.Team == 7) & (players.Week.isin([15,16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].sort_values(by='Slot')
     
     
-    scores = players[(players.Pos != 'Bench') & (players.Week == 15)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
-    # tm1_df.loc[(tm1_df.Week == 13),'Proj'] = tm1_df.loc[(tm1_df.Week == 13),'Actual']
-    # tm2_df.loc[(tm2_df.Week == 13),'Proj'] = tm2_df.loc[(tm2_df.Week == 13),'Actual']
+    scores = players[(players.Pos != 'Bench') & (players.Week == 16)].groupby(['Team'])['Actual','Proj'].sum().reset_index()
+    tm1_df.loc[(tm1_df.Week == 15),'Proj'] = tm1_df.loc[(tm1_df.Week == 15),'Actual']
+    tm2_df.loc[(tm2_df.Week == 15),'Proj'] = tm2_df.loc[(tm2_df.Week == 15),'Actual']
+    tm3_df.loc[(tm3_df.Week == 15),'Proj'] = tm3_df.loc[(tm3_df.Week == 15),'Actual']
+    tm4_df.loc[(tm4_df.Week == 15),'Proj'] = tm4_df.loc[(tm4_df.Week == 15),'Actual']
     
     cols = ['Actual','Proj']
     
@@ -185,7 +187,7 @@ def layout():
     # matchup2.columns = ['Player ','Pos ','Proj ','Actual ','Player','Pos','Proj','Actual']
    
     
-    left_to_play = players[(players.Actual.isna()) & (players.Week.isin([15])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].groupby(['Team']).count()
+    left_to_play = players[(players.Actual.isna()) & (players.Week.isin([16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].groupby(['Team']).count()
     left_to_play.index = [ids[x] for x in left_to_play.index]
     return html.Div(style={'backgroundColor':'#DDE0E6','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
@@ -211,7 +213,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm2_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(0,
+                                                html.Td(left_to_play.loc['Can you  DIGGS it? Sucka','Week'],
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
@@ -222,7 +224,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm1_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(0,
+                                                html.Td(left_to_play.loc['And That Is Dallas','Week'],
                                                         style={'text-align':'center'})
                                                 ])
                                             ],style={'margin':0, 'padding':0})
@@ -246,7 +248,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm4_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(0,
+                                                html.Td(left_to_play.loc[ids[7],'Week'],
                                                         style={'text-align':'center'})
                                                 ]),
                                             html.Tr([
@@ -257,7 +259,7 @@ def layout():
                                                         style={'text-align':'center'}),
                                                 html.Td(round(tm3_df.loc['Total','Proj'],2),
                                                         style={'text-align':'center'}),
-                                                html.Td(0,
+                                                html.Td(left_to_play.loc['Whale Sharks','Week'],
                                                         style={'text-align':'center'})
                                                 ])
                                             ],style={'margin':0, 'padding':0})
@@ -278,16 +280,16 @@ def layout():
                                 value='tab-1',
                                 children=[
                                     dcc.Tab(label='CJ vs. Jake',children=[
-                                            generate_table(tm1_df[tm1_df.Week == 15].drop(columns={'Week'}),'#BAF7FF'),
-                                            generate_table(tm2_df[tm2_df.Week == 15].drop(columns={'Week'}),'#BAF7FF')
+                                            generate_table(tm1_df[tm1_df.Week == 16].drop(columns={'Week'}),'#BAF7FF'),
+                                            generate_table(tm2_df[tm2_df.Week == 16].drop(columns={'Week'}),'#BAF7FF')
                                         ],
                                         style={'width':'50%'}),
             
                                     
                                 
                                     dcc.Tab(label='Spencer vs. Ben',children=[
-                                            generate_table(tm4_df[tm4_df.Week == 15].drop(columns={'Week'}),'#BAF7FF'),
-                                            generate_table(tm3_df[tm3_df.Week == 15].drop(columns={'Week'}),'#BAF7FF')
+                                            generate_table(tm4_df[tm4_df.Week == 16].drop(columns={'Week'}),'#BAF7FF'),
+                                            generate_table(tm3_df[tm3_df.Week == 16].drop(columns={'Week'}),'#BAF7FF')
                                         ],
                                         style={'width':'50%'}),
             
@@ -389,3 +391,7 @@ def updateTable(n):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+
+
