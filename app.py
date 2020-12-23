@@ -188,7 +188,7 @@ def layout():
    
     
     left_to_play = players[(players.Actual.isna()) & (players.Week.isin([16])) & (players.Pos != 'Bench') & (players.Pos != 'IR')].groupby(['Team']).count()
-    left_to_play.index = [ids[x] for x in [4,7,9,10]]
+    left_to_play.index = [ids[x] for x in left_to_play.index]
     return html.Div(style={'backgroundColor':'#DDE0E6','marginLeft':'auto','marginRight':'auto'},children=[
                         html.Div(
                         className='scoreboard',
