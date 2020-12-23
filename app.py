@@ -345,7 +345,7 @@ def layout():
                         
                     ,
                         html.Div(children=[            
-                            html.Img(src='https://i.ibb.co/0Y3DrYr/bracket.jpg',
+                            html.Img(src='https://i.ibb.co/RS4T00Q/bracket.jpg',
                                  style={
                                 'height': 500,
                                 'width': 500,
